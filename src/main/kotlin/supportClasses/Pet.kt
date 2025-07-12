@@ -1,0 +1,4 @@
+package supportClasses
+
+interface Pet {
+}

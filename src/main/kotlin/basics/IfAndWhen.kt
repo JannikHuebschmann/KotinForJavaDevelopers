@@ -1,12 +1,16 @@
 package basics
 
 import basics.Color.*
+import supportClasses.Cat
+import supportClasses.Dog
+import supportClasses.Pet
 
 fun main() {
     ifWhen()
     whenWithNConditions("y")
     whenWithNConditions("yes")
     whenExpressionFuckery(42)
+    usefulExpressionConditions(true, true)
 }
 
 enum class Color {
@@ -56,4 +60,33 @@ private fun whenExpressionFuckery(input: Int) {
     }
     println(unholyOutput)
 }
+
+//A more "sane" use case for expressions as branch conditions would be something like this...
+private fun usefulExpressionConditions(
+    simplePermission: Boolean, privPermission: Boolean
+) = when (setOf(simplePermission, privPermission)) {
+    setOf(false, false) -> "Access denied"
+    setOf(true, false) -> "Read only access granted"
+    setOf(true, true) -> "Write level access granted"
+    else -> "Non valid combination of permission, Access denied!"
+}
+
+//A when-expression can also include type-checks with "is"
+//"is" automatically smart casts Pet to the given Class
+private fun typeCheckingExpression(pet: Pet) {
+    when (pet) {
+        is Cat -> pet.meow()
+        is Dog -> pet.bark()
+    }
+}
+
+//When using any boolean-Expression you can omit the argument after the "when"
+private fun argumentlessWhenExpression(degrees: Int): Pair<String, Color> =
+    when {
+        degrees < 5 -> "cold" to BLUE
+        degrees < 25 -> "mild" to ORANGE
+        else -> "hot" to RED
+    }
+
+
 
